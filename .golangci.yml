@@ -109,7 +109,7 @@ linters-settings:
     sections:
       - standard
       - default
-      - prefix(github.com/cugu/maut)
+      - prefix(github.com/jonas-plum/maut)
   ireturn:
     allow:
       - error
