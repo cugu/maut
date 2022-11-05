@@ -16,7 +16,7 @@ jobs:
 
   test:
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v3
@@ -24,10 +24,8 @@ jobs:
       - run: docker compose up -d
         working-directory: example
       - name: Wait for keycloak
-        uses: cugu/wait_for_response@v1.13.0
-        with: { url: 'http://localhost:8081' }
+        run: curl --head -X HEAD --retry 60 --retry-all-errors --retry-delay 10 http://localhost:8081
       - name: Wait for authelia
-        uses: cugu/wait_for_response@v1.13.0
-        with: { url: 'http://localhost:8082', method: "GET", verbose: "true" }
+        run: curl --head -X GET --retry 60 --retry-all-errors --retry-delay 10 http://localhost:8082
       - name: Test
         run: go test ./...
